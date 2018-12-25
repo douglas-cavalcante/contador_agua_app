@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Button } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View, ImageBackground, Button } from "react-native";
 
 export default class App extends React.Component {
 
@@ -12,23 +12,25 @@ export default class App extends React.Component {
     }
   }
 
-  update = (consumed) => {
-    const per = Math.floor(((this.state.consumed / 2000) * 100));
-    const status = this.state.per >= 100 ? "Bom" : "Ruim";
-    this.setState({ consumed, per, status });
-  }
-
   add = () => {
     const consumed = this.state.consumed += 200;
     this.update(consumed);
   }
 
+  update = (consumed) => {
+    const per = Math.floor((consumed / 2000) * 100);
+    const status = per >= 100 ? "Bom" : "Ruim";
+    this.setState({ consumed, per, status });
+  }
+
+  clear = () => {
+    this.setState({ consumed: 0, per: 0, status: "Ruim" });
+  }
+
   render() {
-
-
     return (
       <View style={styles.container}>
-        <ImageBackground style={styles.bgImg} source={require('./water.jpg')}>
+        <ImageBackground style={styles.bgImg} source={require("./water.jpg")}>
           <View>
             <View style={styles.areaInfo}>
               <View style={styles.area}>
@@ -46,11 +48,12 @@ export default class App extends React.Component {
             </View>
             <View style={styles.perArea}>
               <Text style={styles.perText}>
-                {this.state.per + " %"}
+                {this.state.per + "%"}
               </Text>
             </View>
             <View style={styles.btnArea}>
               <Button onPress={this.add} title="Beber 200ml" />
+              <Button onPress={this.clear} title="Zerar" />
             </View>
           </View>
         </ImageBackground>
@@ -98,7 +101,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   btnArea: {
-    marginTop: 30,
-    alignItems: "center",
-  }
+    margin: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
 });
